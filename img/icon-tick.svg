@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 56.2 (81672) - https://sketch.com -->
+    <title>icon_tick</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icons" transform="translate(-17.000000, -20.000000)">
+            <g id="icon_tick" transform="translate(17.000000, 20.000000)">
+                <polygon id="Fill-1" stroke="#10CB6F" stroke-width="0.8" fill="#10CB70" points="22.4598127 12 15.9332105 18.5216278 12.740187 15.3313335 10.4 17.6705196 15.9314824 23.2 24.8 14.3380394"></polygon>
+                <circle id="Oval" fill="#10CB71" opacity="0.101422991" cx="17.6" cy="17.6" r="17.6"></circle>
+            </g>
+        </g>
+    </g>
+</svg>
