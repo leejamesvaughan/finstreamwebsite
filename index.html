@@ -22,7 +22,7 @@
       <a name="top" class="anchor"></a>
         <div class="wrapper test1">
           <img src="img/logo.svg" width="160px">
-          <a id="open-modal" href="" class="button">Try for free</a>
+          <a id="open-modal" href="" class="button open-modal">Try for free</a>
         </div>
     </div>
 
@@ -45,18 +45,18 @@
 
           <div class="anchor">
             <ul class="anchorlinks">
-              <li class="active"><a href="#howanchor">How</a></li>
-              <li><a href="#brandanchor">Brand it</a></li>
-              <li><a href="#selfbookanchor">Features</a></li>
-              <li><a href="#pricinganchor">Pricing</a></li>
-              <li><a href="#faqanchor">F.A.Q</a></li>
-              <li><a href="#benefitsanchor">Why Finstream?</a></li>
+              <li class="active"><a href="#howitworks">How</a></li>
+              <li><a href="#brand">Brand it</a></li>
+              <li><a href="#selfbookappointments">Features</a></li>
+              <li><a href="#pricing">Pricing</a></li>
+              <li><a href="#faq">F.A.Q</a></li>
+              <li><a href="#benefits">Why Finstream?</a></li>
             </ul>
           </div>
 
           <div class="signup">
             <ul class="navigation">
-              <li><a id="open-modal2" href="" class="button">Try it for free</a></li>
+              <li><a id="open-modal2" href="" class="button open-modal">Try it for free</a></li>
             </ul>
           </div>
       </div>    
@@ -533,7 +533,7 @@
             <h2 class="title">
               Better customer relationships start today!
             </h2>
-            <button href="#">Try it for free</button>
+            <button href="#" class="open-modal">Try it for free</button>
           </div>
           <div class="column column-image">
             <img src="img/img-relationships-hero.svg" max-width="293px">
@@ -587,7 +587,8 @@
       </div>     
     </div>
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <!-- Main.JS -->
     <script type="text/javascript" src="lib/main.js"></script>
     <!-- Smallchat.JS -->
@@ -601,50 +602,101 @@
     </script>
     <!-- Yall Lazy Loader -->
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        yall({
-          observeChanges: true
-        });
-      });
+      // document.addEventListener("DOMContentLoaded", function() {
+      //   yall({
+      //     observeChanges: true
+      //   });
+      // });
     </script>
-
+    
     <!-- Modal popup -->
     <script>
-        document.querySelector('a#open-modal').addEventListener('click', function(event) {
-        event.preventDefault();
+    $(document).ready(function () {
+      $(".open-modal").on("click", function (e) {
+        e.preventDefault();
         var modal = document.querySelector('.modal');  // assuming you have only 1
         var html = document.querySelector('html');
         modal.classList.add('is-active');
         html.classList.add('is-clipped');
 
-        modal.querySelector('.modal-background').addEventListener('click', function(e) {
+        modal.querySelector('.modal-background').addEventListener('click', function (e) {
           e.preventDefault();
           modal.classList.remove('is-active');
           html.classList.remove('is-clipped');
         });
-        modal.querySelector('.modal-close').addEventListener('click', function(e) {
+        modal.querySelector('.modal-close').addEventListener('click', function (e) {
           e.preventDefault();
           modal.classList.remove('is-active');
           html.classList.remove('is-clipped');
         });
       });
-    </script>
+      var lastId,
+        topMenu = $("#stickynav"),
+        topMenuHeight = topMenu.outerHeight() + 15,
+        // All list items
+        menuItems = topMenu.find("a"),
+        // Anchors corresponding to menu items
+        scrollItems = menuItems.map(function (value, index) {
+          var item = $($(this).attr("href"));
+          if (item.length) { return item; }
+        });
 
-    <!-- Sticky nav -->
-    <script>
-      window.onscroll = function() {myFunction()};
-      
-      var navbar = document.getElementById("stickynav");
-      var sticky = navbar.offsetTop;
-      
-      function myFunction() {
-        if (window.pageYOffset >= sticky) {
+      // Bind click handler to menu items
+      // so we can get a fancy scroll animation
+      menuItems.click(function (e) {
+        var href = $(this).attr("href"),
+          offsetTop = href === "#" ? 0 : $(href).offset().top - topMenuHeight + 1;
+        $('html, body').stop().animate({
+          scrollTop: offsetTop
+        }, 300);
+        e.preventDefault();
+      });
+
+      // Bind to scroll
+      $(window).scroll(function () {
+        var navbar = document.getElementById("stickynav");
+        var sticky = navbar.offsetTop;
+        
+        if (window.pageYOffset >= 1000) {
           navbar.classList.add("sticky")
         } else {
           navbar.classList.remove("sticky");
         }
-      }
+        // Get container scroll position
+        
+        var fromTop = $(this).scrollTop() + topMenuHeight;
+
+        // Get id of current scroll item
+        var cur = scrollItems.map(function () {
+          if ($(this).offset().top < fromTop)
+            return this;
+        });
+        // Get the id of the current element
+        if(cur.length > 2){
+          cur = cur[cur.length - 1];
+        }else{
+          cur = cur[cur.length - 1];
+        }
+        
+        if(cur !== undefined){
+          var id = cur && cur.length ? cur[0].id : "";
+          if (lastId !== id) {
+            lastId = id;
+            // Set/remove active class
+            
+            $("#stickynav>ul.anchorlinks>li.active").removeClass("active");
+            $("a[href='#" + id + "']").parent('li').addClass('active');
+            menuItems
+              .parent().removeClass("active")
+              .end().filter("[href='#" + id + "']").parent().addClass("active");
+          }
+        }
+      });
+    });
+    
+      
     </script>
+
 
   </body>
 </html>
